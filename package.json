@@ -1,0 +1,33 @@
+{
+  "name": "job-skul",
+  "version": "1.0.0",
+  "description": "job-skul api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinamos/job-skul.git"
+  },
+  "author": "kevinAmos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinamos/job-skul/issues"
+  },
+  "homepage": "https://github.com/kevinamos/job-skul#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.2",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.1.1",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.8"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1"
+  }
+}
