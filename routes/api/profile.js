@@ -34,7 +34,19 @@ router.post(
   [
     auth,
     [
-      check("education", "Education is required")
+      check("institution", "institution of study required")
+        .not()
+        .isEmpty(),
+      check("levelofStudy", "level of Study required")
+        .not()
+        .isEmpty(),
+      check("course", "course is required")
+        .not()
+        .isEmpty(),
+      check("yearofStudy", "year of Study is required")
+        .not()
+        .isEmpty(),
+      check("fieldofstudy", "Field of study is required")
         .not()
         .isEmpty(),
       check("skills", "skills is required")
@@ -47,54 +59,56 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const {
-      company,
-      website,
-      education,
-      bio,
-      skills,
-      youtube,
-      facebook,
-      twitter,
-      instagram,
-      linkedin
-    } = req.body;
-    const profilefileds = {};
-    profilefileds.user = req.user.id;
-
-    if (githubusername) profilefileds.githubusername = githubusername;
-    if (education) profilefileds.education = education;
-    if (company) profilefileds.company = company;
-    if (website) profilefileds.website = website;
-    if (bio) profilefileds.bio = bio;
-    if (githubusername) profilefileds.githubusername = githubusername;
-    if (skills)
-      profilefileds.skills = skills.split(",").map(skill => skill.trim());
-    //console.log(profilefileds.skills);
-    // res.send(profilefileds.skills);
-    profilefileds.social = {};
-    if (youtube) profilefileds.social.youtube = youtube;
-    if (facebook) profilefileds.social.facebook = facebook;
-    if (twitter) profilefileds.social.location = twitter;
-    if (instagram) profilefileds.social.instagram = instagram;
-    if (linkedin) profilefileds.social.linkedin = linkedin;
-    //education
-    profilefileds.education = {};
-    institution;
-    course;
-    Study: yearofStudy: fieldofstudy: from;
-    to;
-    current: description;
-    if (institution) profilefileds.education.institution = institution;
-    if (fieldofstudy) profilefileds.education.fieldofstudy = fieldofstudy;
-    if (yearofStudy) profilefileds.education.yearofStudy = yearofStudy;
-    if (course) profilefileds.education.course = course;
-    if (from) profilefileds.education.linkedin = from;
-    if (to) profilefileds.education.to = to;
-    if (current) profilefileds.education.current = current;
-
-    let profile = await Profile.findOne({ user: req.user.id });
     try {
+      const {
+        institution,
+        website,
+        education,
+        bio,
+        skills,
+        youtube,
+        facebook,
+        twitter,
+        instagram,
+        linkedin,
+        githubusername,
+        course,
+        levelofStudy,
+        yearofStudy,
+        fieldofstudy
+      } = req.body;
+      const profilefileds = {};
+      console.log(1);
+      profilefileds.user = req.user.id;
+      if (githubusername) profilefileds.githubusername = githubusername;
+      if (education) profilefileds.education = education;
+      if (website) profilefileds.website = website;
+      if (bio) profilefileds.bio = bio;
+      if (githubusername) profilefileds.githubusername = githubusername;
+      if (skills)
+        profilefileds.skills = skills.split(",").map(skill => skill.trim());
+      //console.log(profilefileds.skills);
+      // res.send(profilefileds.skills);
+      console.log(2);
+      profilefileds.social = {};
+      if (youtube) profilefileds.social.youtube = youtube;
+      if (facebook) profilefileds.social.facebook = facebook;
+      if (twitter) profilefileds.social.location = twitter;
+      if (instagram) profilefileds.social.instagram = instagram;
+      if (linkedin) profilefileds.social.linkedin = linkedin;
+      //education
+      profilefileds.education = {};
+
+      if (levelofStudy) profilefileds.education.levelofStudy = levelofStudy;
+      if (institution) profilefileds.education.institution = institution;
+      if (fieldofstudy) profilefileds.education.fieldofstudy = fieldofstudy;
+      if (yearofStudy) profilefileds.education.yearofStudy = yearofStudy;
+      if (course) profilefileds.education.course = course;
+      //if (req.education.from) profilefileds.education.from = req.education.from;
+      //if (req.education.to) profilefileds.education.to = req.education.to;
+      //if (req.education.current)  profilefileds.education.current = req.education.current;
+      //check if profile exists and update if true
+      let profile = await Profile.findOne({ user: req.user.id });
       if (profile) {
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
@@ -103,13 +117,13 @@ router.post(
         );
         return res.json(profile);
       }
-      //create a user profile
+      //otherwise create a new user profile
       profile = new Profile(profilefileds);
       await profile.save();
       res.json(profile);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Internal server error");
+      return res.status(500).send("Internal server error");
     }
   }
 );

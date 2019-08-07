@@ -33,7 +33,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalidcredentials" }] });
+          .json({ errors: [{ msg: "Invalid credentials" }] });
       }
       const ismatch = await bcrypt.compare(password, user.password);
       if (!ismatch) {

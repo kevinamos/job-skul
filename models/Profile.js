@@ -16,53 +16,21 @@ const Profileschema = new Schema({
   bio: {
     type: String
   },
-  exprience: [
-    {
-      title: {
-        type: String,
-        required: true
-      },
-      company: {
-        type: String,
-        required: true
-      },
-      location: {
-        type: String,
-        required: true
-      },
-      from: {
-        type: Date,
-        required: true
-      },
-      to: {
-        type: Date
-      },
-      current: {
-        type: Boolean,
-        default: false
-      },
-      description: {
-        type: String,
-        required: true
-      }
+
+  Projects: {
+    title: {
+      type: String,
+      required: false
+    },
+    domain: {
+      type: String,
+      required: false
+    },
+    description: {
+      type: String,
+      required: false
     }
-  ],
-  Projects: [
-    {
-      title: {
-        type: String,
-        required: true
-      },
-      domain: {
-        type: String,
-        required: true
-      },
-      description: {
-        type: String,
-        required: true
-      }
-    }
-  ],
+  },
   education: {
     institution: {
       type: String,
@@ -86,7 +54,7 @@ const Profileschema = new Schema({
     },
     from: {
       type: Date,
-      required: true
+      required: false
     },
     to: {
       type: Date,
@@ -95,9 +63,6 @@ const Profileschema = new Schema({
     current: {
       type: Boolean,
       default: false
-    },
-    description: {
-      type: String
     }
   },
   social: {
