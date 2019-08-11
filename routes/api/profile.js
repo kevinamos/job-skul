@@ -6,9 +6,54 @@ const user = require("../../models/User");
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 mongoose.set("useFindAndModify", false); //remove deprecation warning
+router.get("/", auth, async (req, res) => {
+  return res.json("working");
+});
+//get all user profiles
+router.get("/all", auth, async (req, res) => {
+  try {
+    profile = await Profile.find().populate("User", [
+      "Firstname",
+      "Lastname",
+      "skills",
+      "education",
+      "projects",
+      "avatar"
+    ]);
+    if (!profile) {
+      return res.status(400).json({ msg: "No user profiles" });
+    }
+    return res.json(profile);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Server error");
+  }
+});
 
-router.get("/", (req, res) => {
-  res.send("at the post profile");
+//get profile for specific user
+router.get("/:id", auth, async (req, res) => {
+  try {
+    profile = await Profile.findOne({ user: req.user.id }).populate("User", [
+      "Firstname",
+      "Lastname",
+      "skills",
+      "education",
+      "projects",
+      "avatar"
+    ]);
+    if (!profile) {
+      res.status(400).json({ msg: "No profile for the User" });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server error");
+  }
+});
+
+//profile delete
+router.get("/delete/:id", (req, res) => {
+  res.send("at get users route");
 });
 //protect the router with wuth middleware to ensure only loged in users can acces it
 router.get("/me", auth, async (req, res) => {

@@ -5,15 +5,26 @@ const gravatar = require("gravatar");
 bcrypt = require("bcryptjs");
 const User = require("../../models/User");
 const config = require("config");
+const auth = require("../../middleware/auth");
 //require("dotenv").config({ path: "../../.env" });
 const jwtSecret = config.get("jwtSecret");
 
 const jwt = require("jsonwebtoken");
-
-router.get("/", (req, res) => {
-  res.send("at get users route");
+//list all users
+router.get("/all", auth, async (req, res) => {
+  try {
+    users = await User.find().select("-password");
+    if (!users) {
+      return res.status(404).send("No users found");
+    }
+    return res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server Error");
+  }
 });
 
+// User creation endpoint
 router.post(
   "/",
   [
