@@ -12,6 +12,7 @@ router.get("/", auth, async (req, res) => {
 //get all user profiles
 router.get("/all", auth, async (req, res) => {
   try {
+    const errors = validationResult(req);
     profile = await Profile.find().populate("User", [
       "Firstname",
       "Lastname",
@@ -52,9 +53,17 @@ router.get("/:id", auth, async (req, res) => {
 });
 
 //profile delete
-router.get("/delete/:id", (req, res) => {
-  res.send("at get users route");
+router.delete("/", auth, async (req, res) => {
+  try {
+    // Remove profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+    res.json({ msg: "User Profile deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
+
 //protect the router with wuth middleware to ensure only loged in users can acces it
 router.get("/me", auth, async (req, res) => {
   try {
