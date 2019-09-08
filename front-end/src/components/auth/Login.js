@@ -8,16 +8,16 @@ const Login = () => {
   });
   const { email, password } = formData;
   const onChange = e => {
-    console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const onSubmit = async e => {
+    e.preventDefault();
     try {
       const user = {
         email: email,
         password: password
       };
-      const res = await axios.post("api/users/", user, {
+      const res = await axios.post("/api/auth", user, {
         ContentType: "application/json"
       });
       console.log(res);
