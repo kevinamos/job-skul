@@ -6,7 +6,7 @@ const Landing = () => {
     <section className="landing">
       <div className="dark-overlay">
         <div className="landing-inner">
-          <h1 className="x-large">Campus job Connector</h1>
+          <h1 className="x-large">job-Skul Connector</h1>
           <p className="lead">
             Create profile/portfolio, share posts and get help from other
             professionals

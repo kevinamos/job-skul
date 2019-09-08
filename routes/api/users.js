@@ -6,7 +6,9 @@ bcrypt = require("bcryptjs");
 const User = require("../../models/User");
 const config = require("config");
 const auth = require("../../middleware/auth");
-//require("dotenv").config({ path: "../../.env" });
+const cors = require("cors");
+const app = express();
+app.use(express.json());
 const jwtSecret = config.get("jwtSecret");
 
 const jwt = require("jsonwebtoken");
@@ -28,7 +30,7 @@ router.get("/all", auth, async (req, res) => {
 router.post(
   "/",
   [
-    check("Firstname", "FisrtName is required")
+    check("Firstname", "Firstname is required")
       .not()
       .isEmpty(),
     check("Lastname", "LastName is required")
@@ -38,6 +40,9 @@ router.post(
     check("password", "Password length must be >6 ").isLength({ min: 6 })
   ],
   async (req, res) => {
+    console.log(req.body.Firstname);
+    console.log(req.body);
+    //return res.json(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });

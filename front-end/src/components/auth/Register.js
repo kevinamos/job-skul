@@ -1,23 +1,41 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    Firstname: "",
+    Lastname: " ",
     email: "",
     password: "",
     password2: ""
   });
-  const { name, email, password, password2 } = formData;
+  const { Firstname, Lastname, email, password, password2 } = formData;
   const onChange = e => {
+    console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
       console.log("Passwords must be same");
     } else {
-      console.log(formData);
+      const newUser = {
+        Lastname: Lastname,
+        Firstname: Firstname,
+        email: email,
+        password: password,
+        password2: password2
+      };
+      try {
+        const res = await axios.post("api/users/", newUser, {
+          ContentType: "application/json"
+        });
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   return (
@@ -32,10 +50,20 @@ const Register = () => {
             <input
               type="text"
               onChange={e => onChange(e)}
-              placeholder="Name"
-              name="name"
-              value={name}
+              placeholder="First Name"
+              name="Firstname"
+              value={Firstname}
               required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Lastname"
+              name="Lastname"
+              value={Lastname}
+              required
+              onChange={e => onChange(e)}
             />
           </div>
           <div className="form-group">
