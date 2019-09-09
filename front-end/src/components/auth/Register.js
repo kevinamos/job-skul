@@ -6,7 +6,7 @@ axios.defaults.baseURL = "http://localhost:5000";
 const Register = () => {
   const [formData, setFormData] = useState({
     Firstname: "",
-    Lastname: " ",
+    Lastname: "",
     email: "",
     password: "",
     password2: ""
