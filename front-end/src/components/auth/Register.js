@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { setAlert } from "../../actions/alerts";
 axios.defaults.baseURL = "http://localhost:5000";
 
-const Register = () => {
+const Register = props => {
   const [formData, setFormData] = useState({
     Firstname: "",
     Lastname: "",
@@ -19,7 +21,7 @@ const Register = () => {
   const onSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
-      console.log("Passwords must be same");
+      props.setAlert("Passwords must be the same", "danger");
     } else {
       const newUser = {
         Lastname: Lastname,
@@ -109,4 +111,7 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default connect(
+  null,
+  { setAlert }
+)(Register);
