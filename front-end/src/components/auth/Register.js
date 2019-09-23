@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { setAlert } from "../../actions/alerts";
+import propTypes from "prop-types";
 axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = props => {
@@ -104,11 +105,15 @@ const Register = props => {
           <input type="submit" className="btn btn-primary" value="Register" />
         </form>
         <p className="my-1">
-          Already have an account? <Link to="Login">Sign In</Link>
+          Already have an ac count? <Link to="Login">Sign In</Link>
         </p>
       </section>
     </Fragment>
   );
+};
+
+Register.propTypes = {
+  setAlert: propTypes.func.isRequired
 };
 
 export default connect(
